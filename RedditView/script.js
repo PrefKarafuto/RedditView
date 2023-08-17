@@ -25,7 +25,10 @@ async function loadPosts() {
 
     posts.forEach((post, index) => {
       if (post.trim() !== "") {
-        const [author, email, datetimeAndUserID, content, title] = post.split("<>");
+        const [author, email, datetimeAndUserID, content, title] = post.replace(/<br>/g,'\n')
+        .replace(/<hr>/g,'!&lt;hr&gt;!')
+        .replace(/<[A-Za-z0-9_"':\/?=& .,]+>/g,'')
+        .replace(/\n/g,'<br>').replace(/!&lt;hr&gt;!/g,'<hr>').split("<>");
         const [datetimeid, userID] = datetimeAndUserID.match(/\d{4}\/\d{2}\/\d{2}\(.+\)? \d{2}:\d{2}:\d{2}\.\d{2} ID:((.+)?)/);
         const datetimes = datetimeid.split(/ ID:/);
         const datetime = datetimes[0];

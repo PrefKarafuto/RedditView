@@ -29,10 +29,9 @@ async function loadPosts() {
         .replace(/<hr>/g,'!&lt;hr&gt;!')
         .replace(/<[A-Za-z0-9_"':\/?=& .,]+>/g,'')
         .replace(/\n/g,'<br>').replace(/!&lt;hr&gt;!/g,'<hr>').split("<>");
-        const [datetimeid, userID] = datetimeAndUserID.match(/\d{4}\/\d{2}\/\d{2}\(.+\)? \d{2}:\d{2}:\d{2}\.\d{2} ID:((.+)?)/);
-        const datetimes = datetimeid.split(/ ID:/);
-        const datetime = datetimes[0];
-
+        const [date, time, isuserID] = datetimeAndUserID.split(" ");
+        const datetime = date + " " + time;
+        const userID = isuserID ? isuserID : "none"
         const postId = index + 1;
         const replyMatch = content.match(/&gt;&gt;(\d+)/g);
         const replies = replyMatch ? replyMatch.map(reply => parseInt(reply.match(/\d+/)[0])) : [];
